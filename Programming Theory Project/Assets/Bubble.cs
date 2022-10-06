@@ -9,18 +9,16 @@ public class Bubble : MonoBehaviour
     [SerializeField]
     List<Material> colors;
     public int colorNumber;
-    List<GameObject> currentCollisions = new List<GameObject>();
-    private GameManager manager;
     public bool willpop = false;
 
 private void Awake()
     {
-        colorNumber = Random.Range(0, 3);
+        colorNumber = Random.Range(0, 5);
         assignColor(colorNumber);
     }
     void Start()
     {
-        manager = FindObjectOfType<GameManager>();
+
     }
 
     public void OnMouseDown()
@@ -34,19 +32,33 @@ private void Awake()
         gameObject.GetComponent<MeshRenderer>().material = colors[color];
 
     }
-    void popMarked()
+
+    protected virtual void pop()
     {
+		var manager = GameObject.FindGameObjectWithTag("GameController");
+        manager.GetComponent<GameManager>().addscore(1);
+		Destroy(gameObject);
+	}
+    protected void popMarked()
+    {
+        int popcount = 0;
 		var allBubbles = GameObject.FindGameObjectsWithTag("bubble");
 		foreach (var bubble in allBubbles)
 		{
 			if (bubble.GetComponent<Bubble>().willpop)
 			{
-                Destroy(bubble);
+				//Abstraction
+				bubble.GetComponent<Bubble>().pop();
+                popcount++;
 			}
 		}
+
+        var manager = GameObject.FindGameObjectWithTag("GameController");
+        manager.GetComponent<GameManager>().reloadBubbles(popcount);
 	}
 
-    void markToPop()
+
+    virtual protected void markToPop()
     {
 		var allBubbles = GameObject.FindGameObjectsWithTag("bubble");
         foreach (var bubble in allBubbles)

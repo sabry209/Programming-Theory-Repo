@@ -115,6 +115,10 @@ MonoBehaviour:
   - {fileID: 2100000, guid: c278ba45276558e4fb0c311fa6b5d403, type: 2}
   - {fileID: 2100000, guid: f0c2f08dbc760bc4e93813474dacbb53, type: 2}
   - {fileID: 2100000, guid: 376d7fdfbc7b98e4f96a8a2a176c76a1, type: 2}
+  - {fileID: 2100000, guid: b74cbf4f206677545a45d7d8b4caad3f, type: 2}
+  - {fileID: 2100000, guid: f85a21cf9971ce941aa7046267276845, type: 2}
+  colorNumber: 0
+  willpop: 0
 --- !u!54 &-1163098950534804406
 Rigidbody:
   m_ObjectHideFlags: 0
