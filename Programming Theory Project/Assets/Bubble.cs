@@ -8,23 +8,30 @@ public class Bubble : MonoBehaviour
 {
     [SerializeField]
     List<Material> colors;
-    public int colorNumber;
+    private int colorNumber;
     public bool willpop = false;
-
-private void Awake()
-    {
-        colorNumber = Random.Range(0, 5);
-        assignColor(colorNumber);
-    }
-    void Start()
+    protected GameManager gameManager;
+    void Awake()
     {
 
-    }
+
+	}
+	void Start()
+    {
+		colorNumber = Random.Range(0, 5);
+		assignColor(colorNumber);
+		gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
+	}
 
     public void OnMouseDown()
     {
-        markToPop();
-        popMarked();
+        if (gameManager.moves > 0)
+        {
+            gameManager.move();
+			markToPop();
+			popMarked();
+		}
+
 	}
 
     void assignColor(int color)
@@ -36,7 +43,7 @@ private void Awake()
     protected virtual void pop()
     {
 		var manager = GameObject.FindGameObjectWithTag("GameController");
-        manager.GetComponent<GameManager>().addscore(1);
+        manager.GetComponent<GameManager>().addscore();
 		Destroy(gameObject);
 	}
     protected void popMarked()

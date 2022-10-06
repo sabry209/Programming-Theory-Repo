@@ -11,25 +11,52 @@ public class GameManager : MonoBehaviour
     private int TotalBubbles;
     [SerializeField]
     private GameObject BubblePrefab;
-	[SerializeField]
-	private List<GameObject> powerups;
-	[SerializeField]
-	private TMPro.TextMeshProUGUI scoreText;
-    private int score;
+    [SerializeField]
+    private List<GameObject> powerups;
+    [SerializeField]
+    private TMPro.TextMeshProUGUI scoreText;
+    [SerializeField]
+    private TMPro.TextMeshProUGUI movesText;
+    [SerializeField]
+    private TMPro.TextMeshProUGUI gameovertext;
+    private int score = 0;
+    public int moves { get;  private set; }
  
     // Start is called before the first frame update
     void Start()
     {
         reloadBubbles(TotalBubbles);
-        spawnPowerBubble(3);
+        spawnPowerBubble(1);
+        moves = 10;
+        score = 0;
+		scoreText.text = "SCORE \n" + score;
+		movesText.text = "MOVES \n" + moves;
 
 	}
 
-    public void addscore(int points)
+    public void move()
     {
-        score += points;
-        scoreText.text = "SCORE \n" + score;
+        moves -= 1;
+		movesText.text = "MOVES \n" + moves;
+        if(moves == 0)
+        {
+            GameOver();
+        }
+	}
 
+    private void GameOver()
+    {
+        gameovertext.gameObject.SetActive(true);
+	}
+	public void addscore()
+    {
+        score += 1;
+        scoreText.text = "SCORE \n" + score;
+        //spawn powerup every 50 points
+        if(score%50 ==0)
+        {
+            spawnPowerBubble(1);
+        }
     }
     // Update is called once per frame
     void Update()
